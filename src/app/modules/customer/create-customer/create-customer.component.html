@@ -1,0 +1,57 @@
+<div class="w-full p-8">
+    <div class="flex justify-between w-full items-center mb-8">
+        <h2 class="text-primary text-xl font-bold m-0">{{currentUserId ? 'Update' : 'Create New'}} Customer</h2>
+
+        <button mat-button (click)="backToList()" class="rounded">
+            <mat-icon class="mr-1">arrow_back</mat-icon>
+            Back to Customers
+        </button>
+    </div>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="bg-white border rounded-md mt-8">
+            <h6 class="text-base font-semibold py-3 border-b px-6 m-0">Customer Details</h6>
+            <div class="grid md:grid-cols-3 grid-cols-1 gap-x-5 gap-y-2 p-6">
+                <mat-form-field floatLabel="always">
+                    <mat-label>Name</mat-label>
+                    <input matInput placeholder="Enter Name" formControlName="name">
+                </mat-form-field>
+
+                <mat-form-field floatLabel="always">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="Enter Email Address" formControlName="email">
+                </mat-form-field>
+
+                <mat-form-field floatLabel="always">
+                    <mat-label>Mobile No1</mat-label>
+                    <input matInput placeholder="Enter Mobile No1" formControlName="mobileNo1">
+                </mat-form-field>
+
+                <mat-form-field floatLabel="always">
+                    <mat-label>Mobile No2</mat-label>
+                    <input matInput placeholder="Enter Mobile No2" formControlName="mobileNo2">
+                </mat-form-field>
+
+                <mat-form-field floatLabel="always">
+                    <mat-label>GST No</mat-label>
+                    <input matInput placeholder="Enter GST No" formControlName="gstNo">
+                </mat-form-field>
+
+                <div *ngIf="currentUserId">
+                    <mat-label class="text-sm text-primary">Status</mat-label>
+                    <div class="flex mt-2 text-sm items-center">
+                        <span>Inactive</span>
+                        <mat-slide-toggle class="mx-3" formControlName="active"></mat-slide-toggle>
+                        <span>Active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-end mt-8">
+            <button mat-raised-button class="rounded mr-5 bg-[#EFEFEF] text-[#111725]" type="button"
+                (click)="backToList()">Cancel</button>
+            <button mat-raised-button class="rounded" type="submit"
+                *ngIf="_userService.hasAccess([accessControls.CUSTOMER_CREATE, accessControls.CUSTOMER_UPDATE])" color="primary">Save</button>
+        </div>
+    </form>
+</div>

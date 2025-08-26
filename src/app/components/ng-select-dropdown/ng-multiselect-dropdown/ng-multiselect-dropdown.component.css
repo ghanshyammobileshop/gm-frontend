@@ -1,0 +1,11 @@
+::ng-deep mat-error {
+    font-size: 10px !important;
+}
+
+::ng-deep .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+    background-color: #2B63E1;
+    border-radius: 2px;
+    color: #fff;
+    padding: 2px 5px;
+    margin: 2px 2px;
+}

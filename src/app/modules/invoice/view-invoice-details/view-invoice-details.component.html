@@ -1,0 +1,150 @@
+<div class="w-full p-8">
+    <div class="md:flex justify-between w-full items-center mb-8">
+        <h2 class="text-primary text-xl font-bold md:m-0">View Invoice Details</h2>
+
+        <button mat-button (click)="goTo('/invoice')" class="rounded">
+            <mat-icon class="mr-1">arrow_back</mat-icon>
+            Back to Invoice
+        </button>
+    </div>
+
+    <div class="bg-white border rounded-md">
+        <div class="md:flex justify-between w-full items-center border-b">
+            <h6 class="text-base font-semibold py-3 px-6 m-0">Customer Details</h6>
+        </div>
+        <div class="grid md:grid-cols-4 grid-cols-1 gap-5 p-6 text-sm font-light">
+            <div>
+                <mat-label class="text-secondary">Customer Name</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{invoiceModel?.customerInfo?.name}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Mobile No1</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{invoiceModel?.customerInfo?.mobileNo1 ?? 'NA'}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Mobile No2</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{invoiceModel?.customerInfo?.mobileNo2 ?? 'NA'}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Email</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{invoiceModel?.customerInfo?.email ?? 'NA'}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">GST No</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{invoiceModel?.customerInfo?.gstNo ?? 'NA'}}
+                </p>
+            </div>
+
+            <div>
+                <mat-label class="text-secondary">Status</mat-label>
+                <p *ngIf="invoiceModel?.customerInfo?.active"
+                    class="mt-2 mb-0 font-medium bg-[#CCEEC1] border border-[#54C632] rounded-full w-fit px-4 py-1">
+                    Active
+                </p>
+                <p *ngIf="!invoiceModel?.customerInfo?.active"
+                    class="mt-2 mb-0 font-medium bg-[#ff7f7f] border border-[#FF0000] rounded-full w-fit px-4 py-1">
+                    Inactive
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white border rounded-md mt-6">
+        <div class="md:flex justify-between w-full items-center border-b">
+            <h6 class="text-base font-semibold py-3 px-6 m-0">Invoice Details</h6>
+            <div>
+                <button mat-raised-button color="primary" 
+                    *ngIf="_userService.hasAccess(accessControls.INVOICE_PRINT)" class="rounded mr-5 m-2" (click)="onPrint()">
+                    Print<mat-icon class="mr-1">print</mat-icon>
+                </button>
+                <button mat-raised-button color="primary" (click)="goTo('/invoice/form/' + invoiceId)"
+                    *ngIf="_userService.hasAccess(accessControls.INVOICE_UPDATE)" class="rounded mr-5">
+                    Edit <mat-icon class="mr-1">edit</mat-icon>
+                </button>
+                <button mat-stroked-button color="warn" *ngIf="_userService.hasAccess(accessControls.INVOICE_DELETE)"
+                    (click)="deleteInvoice()" class="rounded mr-5">
+                    Delete <mat-icon class="mr-1">delete</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-4 grid-cols-1 gap-5 p-6 text-sm font-light">
+            <div>
+                <mat-label class="text-secondary">Shop Name</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{invoiceModel?.shopInfo?.name ?? 'NA'}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Company Name</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{invoiceModel?.companyName ?? ''}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Model No</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{invoiceModel?.modelNo ?? ''}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Serial No1</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{invoiceModel?.serialNo1 ?? ''}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Serial No2</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{invoiceModel?.serialNo2 ?? ''}}
+                </p>
+            </div>
+            @if(isTaxInvoiceType){
+            <div>
+                <mat-label class="text-secondary">HSN Code</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{invoiceModel?.hsnCode ?? ''}}
+                </p>
+            </div>
+            }
+
+        </div>
+        <hr>
+        <div class="grid md:grid-cols-4 grid-cols-1 gap-5 p-6 text-sm font-light">
+            <div>
+                <mat-label class="text-secondary">Quantity</mat-label>
+                <p class="mt-2 mb-0 font-medium">{{invoiceModel?.quantity ?? ''}}</p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Price</mat-label>
+                <p class="mt-2 mb-0 font-medium">{{invoiceModel?.price | number:'2.2'}}</p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Total</mat-label>
+                <p class="mt-2 mb-0 font-medium">{{invoiceModel?.total | number:'2.2'}}</p>
+            </div>
+            @if(isTaxInvoiceType){
+            <div>
+                <mat-label class="text-secondary">SGST Total ({{invoiceModel?.shopInfo?.sgst}}%)</mat-label>
+                <p class="mt-2 mb-0 font-medium">{{invoiceModel?.sgstTotal | number:'2.2'}}</p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">SGST Total ({{invoiceModel?.shopInfo?.cgst}}%)</mat-label>
+                <p class="mt-2 mb-0 font-medium">{{invoiceModel?.cgstTotal | number:'2.2'}}</p>
+            </div>
+            }
+            <div>
+                <mat-label class="text-secondary">Grand Total</mat-label>
+                <p class="mt-2 mb-0 font-medium">{{invoiceModel?.invoiceTotal | number:'2.2'}}</p>
+            </div>
+        </div>
+    </div>
+</div>

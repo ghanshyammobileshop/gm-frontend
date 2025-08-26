@@ -1,0 +1,194 @@
+<div class="w-full p-8">
+    <div class="md:flex justify-between w-full items-center mb-8">
+        <h2 class="text-primary text-xl font-bold md:m-0">{{invoiceId ? 'Update' : 'Create New'}} Invoice</h2>
+
+        <button mat-button (click)="this._location.back()" class="rounded">
+            <mat-icon class="mr-1">arrow_back</mat-icon>
+            Back to Invoices
+        </button>
+    </div>
+
+    <div class="bg-white border rounded-md">
+        <div class="md:flex justify-between w-full items-center border-b">
+            <h6 class="text-base font-semibold py-3 px-6 m-0">Customer Details</h6>
+        </div>
+        <div class="grid md:grid-cols-4 grid-cols-1 gap-5 p-6 text-sm font-light">
+            <div>
+                <mat-label class="text-secondary">Customer Name</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{customer?.name}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Mobile No1</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{customer?.mobileNo1 ?? 'NA'}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Mobile No2</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{customer?.mobileNo2 ?? 'NA'}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Email</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{customer?.email ?? 'NA'}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">GST No</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{customer?.gstNo ?? 'NA'}}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white border rounded-md mt-6">
+        <div class="md:flex justify-between w-full border-b items-center">
+            <h6 class="text-base font-semibold py-3 px-6 m-0">Invoices By ({{shop?.name ?? ''}})</h6>
+            <div>
+                <button mat-raised-button color="primary" class="rounded mr-3 m-2" (click)="onSave()"
+                    [disabled]="!submitEnable">
+                    {{invoiceId ? 'Update' : 'Save'}}<mat-icon class="mr-1">save</mat-icon>
+                </button>
+                @if(invoiceId){
+                <button mat-raised-button color="primary" class="rounded mr-5 m-2" (click)="onPrint()"
+                    [disabled]="!submitEnable">
+                    Print<mat-icon class="mr-1">print</mat-icon>
+                </button>
+                }
+            </div>
+        </div>
+
+        <form [formGroup]="invoiceForm">
+            <div class="p-6">
+
+                <div class="md:flex justify-end">
+
+                    <mat-form-field floatLabel="always" class="md:w-2/12 w-full md:mr-5">
+                        <mat-select placeholder="Invoice Type" formControlName="invoiceType"
+                            (selectionChange)="onChangeInvoiceType($event)">
+                            <mat-option *ngFor="let enum of invoiceTypeEnum | keyvalue" [value]="enum.value">
+                                {{ enum.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field floatLabel="always" class="md:w-2/12 w-full md:mr-5">
+                        <div matPrefix>
+                            {{invoiceForm.controls.invoicePrefix.value}}{{invoiceForm.controls.invoicePrefix.value ? '-'
+                            : ''}}</div>
+                        <input matInput formControlName="invoiceNo" placeholder="Invoice No">
+                    </mat-form-field>
+
+                    <mat-form-field floatLabel="always" class="md:w-2/12 w-full">
+                        <input matInput [matDatepicker]="picker" formControlName="invoiceDate"
+                            placeholder="Invoice Date" readonly>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="md:flex w-full overflow-x-hidden bg-white border rounded-lg mt-1 p-3">
+
+                    <div class="md:w-4/12 p-3">
+                        <mat-form-field floatLabel="always" class="w-full">
+                            <mat-label>Company Name</mat-label>
+                            <input matInput formControlName="companyName" placeholder="Company Name">
+                        </mat-form-field>
+
+                        <mat-form-field floatLabel="always" class="w-full">
+                            <mat-label>Serial No2</mat-label>
+                            <input matInput formControlName="serialNo2" placeholder="Serial No2">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="md:w-4/12 p-3">
+                        <mat-form-field floatLabel="always" class="w-full">
+                            <mat-label>Model No</mat-label>
+                            <input matInput formControlName="modelNo" placeholder="Model No">
+                        </mat-form-field>
+
+                        @if(isTaxInvoiceType){
+                        <mat-form-field floatLabel="always" class="w-full">
+                            <mat-label>HSN Code</mat-label>
+                            <input matInput formControlName="hsnCode" placeholder="HSN Code">
+                        </mat-form-field>
+                        }
+                    </div>
+
+                    <div class="md:w-4/12 p-3">
+                        <mat-form-field floatLabel="always" class="w-full">
+                            <mat-label>Serial No1</mat-label>
+                            <input matInput formControlName="serialNo1" placeholder="Serial No1">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <div class="md:flex w-full overflow-x-hidden bg-white border rounded-lg mt-3 p-3">
+
+                    <div class="md:w-4/12 p-3">
+                        <mat-form-field floatLabel="always" class="w-full">
+                            <mat-label>Quantity</mat-label>
+                            <input matInput type="number" formControlName="quantity" placeholder="Quantity">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="md:w-4/12 p-3">
+                        <mat-form-field floatLabel="always" class="w-full">
+                            <mat-label>Price</mat-label>
+                            <input matInput type="number" formControlName="price" placeholder="Price">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="md:w-4/12 p-3">
+                        <mat-form-field floatLabel="always" class="w-full">
+                            <mat-label>Total</mat-label>
+                            <input matInput formControlName="total" placeholder="Total" readonly="true">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <div class="md:flex justify-end mt-6">
+                    <div class="bg-white border rounded-lg p-3">
+                        <table>
+                            @if(isTaxInvoiceType){
+                            <tr class="border-b">
+                                <td class="p-3 md:flex justify-end">SGST Total ({{shop?.sgst ?? 0}}%)</td>
+                                <td class="p-3 text-primary text-xl">{{this.invoiceForm.get('sgstTotal')?.value |
+                                    number: '2.2'}}</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-3 md:flex justify-end">CGST Total ({{shop?.cgst ?? 0}}%)</td>
+                                <td class="p-3 text-primary text-xl">{{this.invoiceForm.get('cgstTotal')?.value |
+                                    number: '2.2'}}</td>
+                            </tr>
+                            }
+                            <tr class="border-b">
+                                <td class="p-3 md:flex justify-end">Sub Total</td>
+                                <td class="p-3 text-primary text-xl">{{this.invoiceForm.get('subTotal')?.value | number:
+                                    '2.2'}}</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-3 md:flex justify-end">Rounding Off</td>
+                                <td class="p-3 text-primary text-xl">{{this.invoiceForm.get('roundingOff')?.value | number:
+                                    '2.2'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 md:flex justify-end">Grand Total</td>
+                                <td class="p-3 text-primary text-xl font-bold">
+                                    {{this.invoiceForm.get('invoiceTotal')?.value | number: '2.2'}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

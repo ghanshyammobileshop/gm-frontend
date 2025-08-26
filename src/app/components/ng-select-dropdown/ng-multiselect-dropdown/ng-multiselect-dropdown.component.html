@@ -1,0 +1,7 @@
+<ng-select appendTo="body" [closeOnSelect]="!multiple" [multiple]="multiple" [loadingText]="'Loading...'" [clearable]="false"
+    [hideSelected]="true" [(ngModel)]="selectItem" [loading]="isDataLoading" [typeahead]="input$"
+    [disabled]="isFieldDisabled" [placeholder]="placeholder" (scrollToEnd)="fetchMore()" (change)="changeValues()">
+    <ng-option *ngFor="let option of options$ | async" [value]="option[uniqueKey]">
+        {{ option[bindLabel] }}
+    </ng-option>
+</ng-select>

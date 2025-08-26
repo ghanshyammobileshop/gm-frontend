@@ -1,0 +1,109 @@
+<div class="w-full p-8">
+    <div class="md:flex justify-between w-full items-center mb-8">
+        <h2 class="text-primary text-xl font-extrabold md:m-0">Log Report </h2>
+
+    </div>
+
+    <form action="" [formGroup]="searchForm">
+        <div class="grid md:grid-cols-4 grid-cols-1 gap-4 my-2">
+            <mat-form-field class="w-full fuse-mat-dense">
+                <mat-select placeholder="User Name" formControlName="searchString"></mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full fuse-mat-dense">
+                <mat-select placeholder="Select Type" formControlName="type"
+                    (selectionChange)="resetPagination();getLogList()">
+                    <mat-option>All</mat-option>
+                    <mat-option *ngFor="let logTypes of constantValues?.logTypes"
+                        [value]="logTypes">{{logTypes}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full fuse-mat-dense">
+                <mat-select placeholder="Select Action" formControlName="action"
+                    (selectionChange)="resetPagination();getLogList()">
+                    <mat-option>All</mat-option>
+                    <mat-option *ngFor="let action of constantValues?.logActions"
+                        [value]="action">{{action}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full fuse-mat-dense">
+                <mat-select placeholder="Select Operation" formControlName="operation"
+                    (selectionChange)="resetPagination();getLogList()">
+                    <mat-option>All</mat-option>
+                    <mat-option *ngFor="let logOperations of constantValues?.logOperations"
+                        [value]="logOperations">{{logOperations}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </form>
+
+    <div class="w-full overflow-x-auto bg-white border rounded-lg">
+        <table mat-table class="w-full" [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort>
+
+            <ng-container matColumnDef="no">
+                <th mat-header-cell *matHeaderCellDef width="70" class="text-center"> No. </th>
+                <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+                    {{(this.pagination.pageIndex*this.pagination.pageSize) +(i+1)}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.name}} {{element.role ?
+                    '('+element.role+')' : ''}}
+                    <br /> {{element.email}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.type}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.action}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="operation">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Operation </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.operation}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                <td mat-cell *matCellDef="let element" class="detail-td">
+                    <div class="details-text" [innerHTML]="replaceString(element.description)"></div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="createdAt">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date & Time </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element?.createdAt | date:'HH:mm:ss'}}<br class="hide" />
+                    {{element?.createdAt | date:'dd MMM yyyy'}}
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr class="mat-row" *matNoDataRow>
+                <td class="text-center p-3" [attr.colspan]="displayedColumns.length">
+                    No data found
+                </td>
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="goToDetails(row)"></tr>
+        </table>
+    </div>
+
+    <div class="flex justify-end mt-2">
+        <mat-paginator class="bg-transparent"></mat-paginator>
+    </div>
+
+</div>

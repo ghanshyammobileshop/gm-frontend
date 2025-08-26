@@ -1,0 +1,88 @@
+<div class="w-full p-8">
+    <div class="md:flex justify-between w-full items-center mb-8">
+        <h2 class="text-primary text-xl font-bold md:m-0">View Shop Details</h2>
+
+        <button mat-button (click)="goTo('/shop')" class="rounded">
+            <mat-icon class="mr-1">arrow_back</mat-icon>
+            Back to Shops
+        </button>
+    </div>
+    <div class="bg-white border rounded-md">
+        <div class="md:flex justify-between w-full items-center border-b">
+            <h6 class="text-base font-semibold py-3 px-6 m-0">Shop Details</h6>
+            <div>
+                <button mat-raised-button color="primary" (click)="goTo('/shop/form/' + shopId)"
+                    *ngIf="_userService.hasAccess(accessControls.SHOP_UPDATE)" class="rounded mr-5 m-2">
+                    Edit <mat-icon class="mr-1">edit</mat-icon>
+                </button>
+                <button mat-stroked-button color="warn" *ngIf="_userService.hasAccess(accessControls.SHOP_DELETE)"
+                    (click)="deleteShop()" class="rounded mr-5">
+                    Delete <mat-icon class="mr-1">delete</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="p-6">
+            <div class="grid md:grid-cols-4 grid-cols-1 gap-5 text-sm font-light">
+                <div>
+                    <mat-label class="text-secondary">Shop Name</mat-label>
+                    <p class="mt-2 mb-0 font-medium">
+                        {{shopModel?.name}}
+                    </p>
+                </div>
+                <div>
+                    <mat-label class="text-secondary">Invoice Type</mat-label>
+                    <p class="mt-2 mb-0 font-medium">
+                        {{shopModel?.invoiceType}}
+                    </p>
+                </div>
+                <div>
+                    <mat-label class="text-secondary">Invoice Prefix</mat-label>
+                    <p class="mt-2 mb-0 font-medium">{{shopModel?.invoicePrefix}}</p>
+                </div>
+                @if(isTaxInvoiceType){
+                <div>
+                    <mat-label class="text-secondary">CGST</mat-label>
+                    <p class="mt-2 mb-0 font-medium">
+                        {{shopModel?.cgst}}
+                    </p>
+                </div>
+                <div>
+                    <mat-label class="text-secondary">SGST</mat-label>
+                    <p class="mt-2 mb-0 font-medium">
+                        {{shopModel?.sgst}}
+                    </p>
+                </div>
+                <div>
+                    <mat-label class="text-secondary">GST NO</mat-label>
+                    <p class="mt-2 mb-0 font-medium">{{shopModel?.gstNo}}</p>
+                </div>
+                }
+            </div>
+            <div class="grid md:grid-cols-1 grid-cols-1 gap-5 text-sm font-light mt-4">
+                <div>
+                    <mat-label class="text-secondary">Description</mat-label>
+                    <pre class="mt-2 mb-0 font-medium whitespace-pre-line">
+                        {{shopModel?.description}}
+                    </pre>
+                </div>
+                <div>
+                    <mat-label class="text-secondary">Terms And Conditions</mat-label>
+                    <pre class="mt-2 mb-0 font-medium whitespace-pre-line">
+                        {{shopModel?.termsAndConditions}}
+                    </pre>
+                </div>
+            </div>
+            <div class="mt-4">
+                <mat-label class="text-secondary">Status</mat-label>
+                <p *ngIf="shopModel?.active"
+                    class="mt-2 mb-0 font-medium bg-[#CCEEC1] border border-[#54C632] rounded-full w-fit px-4 py-1">
+                    Active
+                </p>
+                <p *ngIf="!shopModel?.active"
+                    class="mt-2 mb-0 font-medium bg-[#ff7f7f] border border-[#FF0000] rounded-full w-fit px-4 py-1">
+                    Inactive
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

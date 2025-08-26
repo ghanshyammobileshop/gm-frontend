@@ -1,0 +1,74 @@
+<div class="w-full p-8">
+    <div class="md:flex justify-between w-full items-center mb-8">
+        <h2 class="text-primary text-xl font-bold md:m-0">View Admin User</h2>
+
+        <button mat-button (click)="goTo('/admin-user')" class="rounded">
+            <mat-icon class="mr-1">arrow_back</mat-icon>
+            Back to Users
+        </button>
+    </div>
+    <div class="bg-white border rounded-md">
+        <div class="md:flex justify-between w-full items-center border-b">
+            <h6 class="text-base font-semibold py-3 px-6 m-0">User Details</h6>
+            <div>
+                <button mat-raised-button color="primary" (click)="goTo('/admin-user/form/' + adminUserId)"
+                    *ngIf="_userService.hasAccess(accessControlsList.USER_UPDATE)" class="rounded mr-5 m-2">
+                    Edit <mat-icon class="mr-1">edit</mat-icon>
+                </button>
+                <button mat-stroked-button color="primary"
+                    *ngIf="_userService.hasAccess(accessControlsList.USER_UPDATE)" (click)="resetPassword()"
+                    class="rounded mr-5 m-2">Reset
+                    Password
+                </button>
+                <button mat-stroked-button color="warn" *ngIf="_userService.hasAccess(accessControlsList.USER_DELETE)"
+                    (click)="deleteUser()" class="rounded mr-5">
+                    Delete <mat-icon class="mr-1">delete</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-4 grid-cols-1 gap-5 p-6 text-sm font-light">
+            <div>
+                <mat-label class="text-secondary">Name</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{adminUser?.name}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Email</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{adminUser?.email}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Status</mat-label>
+                <p *ngIf="adminUser?.active"
+                    class="mt-2 mb-0 font-medium bg-[#CCEEC1] border border-[#54C632] rounded-full w-fit px-4 py-1">
+                    Active
+                </p>
+                <p *ngIf="!adminUser?.active"
+                    class="mt-2 mb-0 font-medium bg-[#ff7f7f] border border-[#FF0000] rounded-full w-fit px-4 py-1">
+                    Inactive
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">User Role</mat-label>
+                <p class="mt-2 mb-0 font-medium">{{adminUser?.role}}</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="bg-white border rounded-md mt-8 ">
+        <div class="md:flex justify-between w-full items-center border-b">
+            <h6 class="text-base font-semibold py-3 px-6 m-0">Permissions</h6>
+        </div>
+        <div class="grid md:grid-cols-3 grid-cols-1 gap-x-5 gap-y-10 p-6 text-sm font-light">
+            <div *ngFor="let category of accessControls">
+                <mat-label class="font-semibold">{{category.category}}</mat-label>
+                @for(accessControl of category.accessControls; track accessControl) {
+                    <p class="mt-2 mb-0 text-sm">{{accessControl.label}}</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,98 @@
+<div class="w-full p-8">
+	<div class="md:flex justify-between w-full items-center mb-8">
+		<h2 class="text-primary text-xl font-extrabold md:m-0">Invoice List</h2>
+
+		<div>
+			<button mat-raised-button color="primary" (click)="createInvoice()"
+				*ngIf="_userService.hasAccess(accessControls.INVOICE_CREATE)" class="rounded">
+				<mat-icon class="mr-1">add</mat-icon>
+				Create Invoice
+			</button>
+		</div>
+	</div>
+	<form action="" [formGroup]="searchForm">
+		<div class="grid md:grid-cols-4 grid-cols-1 gap-4 my-2">
+			<mat-form-field class="w-full fuse-mat-dense">
+				<input matInput placeholder="Search" formControlName="searchString">
+			</mat-form-field>
+
+			<mat-form-field class="w-full fuse-mat-dense">
+				<mat-select placeholder="Shop" formControlName="shopId" (selectionChange)="resetPagination();getInvoiceList()">
+					@for (shop of shopDropdown; track shop) {
+					<mat-option [value]="shop.id">{{shop.name}}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+		</div>
+	</form>
+
+	<div class="w-full overflow-x-auto bg-white border rounded-lg">
+		<table mat-table class="w-full" [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort>
+			<ng-container matColumnDef="no">
+				<th mat-header-cell *matHeaderCellDef width="80">No.</th>
+				<td mat-cell *matCellDef="let element; let i = index" width="80">
+					{{(this.pagination.pageIndex*this.pagination.pageSize) +(i+1)}}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="invoiceNo">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice No</th>
+				<td mat-cell *matCellDef="let element">
+					{{ element?.invoiceNo }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="createdAt">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice Date</th>
+				<td mat-cell *matCellDef="let element">
+					{{ element?.createdAt | date:'dd MMM yyyy' }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="customerName">
+				<th mat-header-cell *matHeaderCellDef>Customer Name</th>
+				<td mat-cell *matCellDef="let element">
+					{{ element?.customerInfo?.name }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="companyName">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Company Name</th>
+				<td mat-cell *matCellDef="let element">
+					{{ element?.companyName }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="modelNo">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Model No</th>
+				<td mat-cell *matCellDef="let element">
+					{{ element?.modelNo }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="invoiceTotal">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice Total</th>
+				<td mat-cell *matCellDef="let element">
+					{{ element?.invoiceTotal | number: '2.2'}}
+				</td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr class="mat-row" *matNoDataRow>
+				<td class="text-center p-3" [attr.colspan]="displayedColumns.length">
+					No data found
+				</td>
+			</tr>
+			<tr mat-row *matRowDef="let element; columns: displayedColumns;"
+				(click)="goTo(_userService.hasAccess(accessControls.INVOICE_READ_DETAILS)  ? '/invoice/view/'+element.id : null)">
+			</tr>
+		</table>
+	</div>
+
+	<div class="flex justify-end mt-2">
+		<mat-paginator #paginator class="bg-transparent" [pageSize]="this.pagination.pageSize"
+			[pageIndex]="this.pagination.pageIndex" [pageSizeOptions]="this.pagination.pageSizeOptions"
+			(page)="pageChanged($event)">
+		</mat-paginator>
+	</div>
+</div>

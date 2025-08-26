@@ -1,0 +1,111 @@
+<div class="w-full p-8">
+    <div class="flex justify-between w-full items-center mb-8">
+        <h2 class="text-primary text-xl font-bold m-0">{{currentUserId ? 'Update' : 'Create New'}} User</h2>
+
+        <button mat-button (click)="backToList()" class="rounded">
+            <mat-icon class="mr-1">arrow_back</mat-icon>
+            Back to Users
+        </button>
+    </div>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="bg-white border rounded-md mt-8">
+            <h6 class="text-base font-semibold py-3 border-b px-6 m-0">User Details</h6>
+            <div class="grid md:grid-cols-3 grid-cols-1 gap-x-5 gap-y-2 p-6">
+                <mat-form-field floatLabel="always">
+                    <mat-label>Name</mat-label>
+                    <input matInput placeholder="Enter Name" formControlName="name">
+                </mat-form-field>
+
+                <mat-form-field floatLabel="always">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="Enter Email, eg. jacob@gmail.com" formControlName="email">
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Shop</mat-label>
+                    <mat-select [formControlName]="'shopAccess'" multiple>
+                        @for (shop of shopDropdown; track shop) {
+                        <mat-option [value]="shop.id">{{shop.name}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field floatLabel="always" *ngIf="!currentUserId">
+                    <mat-label>Enter Password
+                        <mat-icon class="float-right"
+                            matTooltip="Minimum 8 character with one uppercase, include special characters like @ * #">
+                            info
+                        </mat-icon>
+                    </mat-label>
+                    <input type="password" matInput placeholder="Enter Enter Password" formControlName="password"
+                        #passwordField>
+                    <button mat-icon-button type="button"
+                        (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                        matSuffix>
+                        <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'text'">visibility_off</mat-icon>
+                        <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'password'">visibility</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <mat-form-field floatLabel="always" *ngIf="!currentUserId">
+                    <mat-label>Re-enter Password<mat-icon class="float-right"
+                            matTooltip="Minimum 8 character with one uppercase, include special characters like @ * #">
+                            info
+                        </mat-icon>
+                    </mat-label>
+                    <input type="password" matInput placeholder="Enter Re-enter Password"
+                        formControlName="confirmPassword" #cPasswordField>
+                    <button mat-icon-button type="button"
+                        (click)="cPasswordField.type === 'password' ? cPasswordField.type = 'text' : cPasswordField.type = 'password'"
+                        matSuffix>
+                        <mat-icon class="icon-size-5" *ngIf="cPasswordField.type === 'text'">visibility_off</mat-icon>
+                        <mat-icon class="icon-size-5" *ngIf="cPasswordField.type === 'password'">visibility</mat-icon>
+                    </button>
+                </mat-form-field>
+
+
+                <div *ngIf="currentUserId">
+                    <mat-label class="text-sm text-primary">Status</mat-label>
+                    <div class="flex mt-2 text-sm items-center">
+                        <span>Inactive</span>
+                        <mat-slide-toggle class="mx-3" formControlName="active"></mat-slide-toggle>
+                        <span>Active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white border rounded-md mt-8">
+            <h6 class="text-base font-semibold py-3 border-b px-6 m-0">User Role</h6>
+            <div class="grid md:grid-cols-2 grid-cols-1 gap-x-5 gap-y-2 p-6">
+                <mat-radio-group formControlName="role" (change)="onChangeRole($event.value)">
+                    @for(role of roles; track role) {
+                        <mat-radio-button class="mr-4" [value]="role">{{role}}</mat-radio-button>
+                    }
+                </mat-radio-group>
+            </div>
+        </div>
+
+        <div class="bg-white border rounded-md mt-8">
+            <h6 class="text-base font-semibold py-3 border-b px-6 m-0">Permissions</h6>
+            <div class="grid md:grid-cols-3 grid-cols-1 gap-8 p-6">
+                @for(category of accessControls; track category) {
+                    <div class="border rounded-md p-4">
+                        <h6 class="text-base font-semibold mb-2"> {{category.category}}</h6>
+                        @for(accessControl of category.accessControls; track accessControl) {
+                            <mat-checkbox class="w-full" [checked]="this.userForm.value?.accessControls?.includes(accessControl.value)"
+                                (change)="onChangePermissionCheckBox($event, accessControl.value)">{{accessControl.label}}</mat-checkbox>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+
+        <div class="flex justify-end mt-8">
+            <button mat-raised-button class="rounded mr-5 bg-[#EFEFEF] text-[#111725]" type="button"
+                (click)="backToList()">Cancel</button>
+            <button mat-raised-button class="rounded" color="primary">Save</button>
+        </div>
+    </form>
+</div>

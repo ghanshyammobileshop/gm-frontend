@@ -1,0 +1,17 @@
+<ng-select appendTo="body" [loadingText]="'Loading...'" [clearable]="false" [hideSelected]="true"
+    [(ngModel)]="selectItem" [loading]="isDataLoading" [typeahead]="input$" [disabled]="isFieldDisabled"
+    [placeholder]="placeholder" (scrollToEnd)="fetchMore()" (change)="changeValues()">
+    <ng-option *ngFor="let option of options$ | async" [value]="option[uniqueKey]">
+        <div *ngIf="bindLabelPattern.length == 0">
+            {{ option[bindLabel] }}
+        </div>
+        <div *ngIf="bindLabelPattern.length > 0">
+            <div *ngFor="let pattern of bindLabelPattern">
+                <span>
+                    {{getDataFromPattern(option, pattern)}}
+                </span>
+                <br />
+            </div>
+        </div>
+    </ng-option>
+</ng-select>

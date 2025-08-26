@@ -1,0 +1,71 @@
+<!-- Notifications toggle -->
+<button mat-icon-button (click)="openPanel()" #notificationsOrigin class="transition-transform hover:scale-12">
+    <span class="absolute top-0 right-0 left-0 flex items-center justify-center h-3">
+        <span class="flex items-center justify-center shrink-0 min-w-4 h-4 p-1 ml-4 mt-2.5 rounded-full bg-primary text-white text-xs font-medium">
+           2
+        </span>
+    </span>
+    <mat-icon>notifications</mat-icon>
+</button>
+
+<!-- Notifications panel -->
+<ng-template #notificationsPanel>
+
+    <div class="fixed inset-0 bg-white sm:static sm:inset-auto flex flex-col sm:min-w-[300px] sm:w-90 sm:rounded-2xl overflow-hidden shadow-lg">
+
+        <!-- Header -->
+        <div class="flex shrink-0 items-center py-2 pr-4 pl-6 bg-primary">
+            <div class="sm:hidden -ml-1 mr-3">
+                <button mat-icon-button (click)="closePanel()">
+                    <mat-icon class="icon-size-5 text-current">close</mat-icon>
+                </button>
+            </div>
+            <div class="text-base font-medium leading-10 text-white">Notifications</div>
+            <div class="ml-auto">
+                <button mat-icon-button [matTooltip]="'Mark all as read'">
+                    <mat-icon class="icon-size-5 text-white">mark_as_unread</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="relative flex flex-col flex-auto sm:max-h-120 divide-y overflow-y-auto bg-card">
+            <div class="p-4 flex group hover:bg-gray-50">
+                <div class="flex shrink-0 items-center justify-center w-8 h-8 mr-4 rounded-full bg-gray-100 dark:bg-gray-700">
+                    <mat-icon class="icon-size-5">verified</mat-icon>
+                </div>
+                <div class="flex flex-col flex-auto">
+                    <div class="font-semibold line-clamp-1">Title</div>
+                    <div class="line-clamp-2">Description</div>
+                    <div class="mt-2 text-sm leading-none text-secondary">Date: MM dd, h:mm</div>
+                </div>
+            </div>
+
+            <div class="p-4 flex group hover:bg-gray-50">
+                <div class="flex shrink-0 items-center justify-center w-8 h-8 mr-4 rounded-full bg-gray-100 dark:bg-gray-700">
+                    <mat-icon class="icon-size-5">verified</mat-icon>
+                </div>
+                <div class="flex flex-col flex-auto">
+                    <div class="font-semibold line-clamp-1">Title</div>
+                    <div class="line-clamp-2">Description</div>
+                    <div class="mt-2 text-sm leading-none text-secondary">Date: MM dd, h:mm</div>
+                </div>
+            </div>
+
+            <!-- No notifications -->
+            <!-- <ng-container *ngIf="!notifications || !notifications.length">
+                <div class="flex flex-col flex-auto items-center justify-center sm:justify-start py-12 px-8">
+                    <div class="flex flex-0 items-center justify-center w-14 h-14 rounded-full bg-primary-100 dark:bg-primary-600">
+                        <mat-icon
+                            class="text-primary-700 dark:text-primary-50">notifications</mat-icon>
+                    </div>
+                    <div class="mt-5 text-2xl font-semibold tracking-tight">No notifications</div>
+                    <div class="w-full max-w-60 mt-1 text-md text-center text-secondary">When you have notifications, they will appear here.</div>
+                </div>
+            </ng-container> -->
+
+        </div>
+
+    </div>
+
+</ng-template>

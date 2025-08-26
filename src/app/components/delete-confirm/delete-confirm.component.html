@@ -1,0 +1,11 @@
+<mat-icon mat-dialog-close
+    class="text-sm text-[#909090] absolute right-[22px] top-[22px] cursor-pointer">close</mat-icon>
+<div class="text-center p-6">
+    <img src="../../../../../assets/icons/question-mark.svg" alt="" width="40" class="mx-auto mb-5">
+    <p class="m-0">{{data?.title}}</p>
+</div>
+
+<div class="flex justify-between mt-4">
+    <button mat-raised-button mat-dialog-close class="rounded mr-5 bg-[#EFEFEF] text-[#111725]">Cancel</button>
+    <button mat-raised-button class="rounded" color="primary" (click)="confirm()">Yes</button>
+</div>

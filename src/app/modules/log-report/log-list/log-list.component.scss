@@ -1,0 +1,21 @@
+.detail-td {
+    max-width: 350px !important;
+}
+
+.details-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+@media (max-width: 768px) {
+    .detail-td {
+        max-width: 330px !important;
+    }
+
+    .mainTable td:first-child {
+        display: block;
+    }
+}

@@ -1,0 +1,151 @@
+<div class="w-full p-8">
+    <div class="md:flex justify-between w-full items-center mb-8">
+        <h2 class="text-primary text-xl font-bold md:m-0">Customer & Invoice</h2>
+
+        <button mat-button (click)="goTo('/customer')" class="rounded">
+            <mat-icon class="mr-1">arrow_back</mat-icon>
+            Back to Customers
+        </button>
+    </div>
+
+    <div class="bg-white border rounded-md">
+        <div class="md:flex justify-between w-full items-center border-b">
+            <h6 class="text-base font-semibold py-3 px-6 m-0">Customer Details</h6>
+            <div>
+                <button mat-raised-button color="primary" (click)="editConfirm()"
+                    *ngIf="_userService.hasAccess(accessControls.CUSTOMER_UPDATE)" class="rounded mr-5 m-2">
+                    Edit <mat-icon class="mr-1">edit</mat-icon>
+                </button>
+                <button mat-stroked-button color="warn" *ngIf="_userService.hasAccess(accessControls.CUSTOMER_DELETE)"
+                    (click)="deleteCustomer()" class="rounded mr-5">
+                    Delete <mat-icon class="mr-1">delete</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-4 grid-cols-1 gap-5 p-6 text-sm font-light">
+            <div>
+                <mat-label class="text-secondary">Customer Name</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{customer?.name}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Mobile No1</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{customer?.mobileNo1 ?? 'NA'}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Mobile No2</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{customer?.mobileNo2 ?? 'NA'}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">Email</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{customer?.email ?? 'NA'}}
+                </p>
+            </div>
+            <div>
+                <mat-label class="text-secondary">GST No</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{customer?.gstNo ?? 'NA'}}
+                </p>
+            </div>
+
+            <div>
+                <mat-label class="text-secondary">Status</mat-label>
+                <p *ngIf="customer?.active"
+                    class="mt-2 mb-0 font-medium bg-[#CCEEC1] border border-[#54C632] rounded-full w-fit px-4 py-1">
+                    Active
+                </p>
+                <p *ngIf="!customer?.active"
+                    class="mt-2 mb-0 font-medium bg-[#ff7f7f] border border-[#FF0000] rounded-full w-fit px-4 py-1">
+                    Inactive
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white border rounded-md mt-6">
+        <div class="md:flex justify-between w-full border-b items-center">
+            <h6 class="text-base font-semibold py-3 px-6 m-0">Invoices</h6>
+            <button mat-raised-button color="primary" (click)="goToCreateInvoice()"
+                *ngIf="_userService.hasAccess(accessControls.INVOICE_CREATE)" class="rounded mr-5 m-2">
+                Create<mat-icon class="mr-1">add</mat-icon>
+            </button>
+        </div>
+        <div class="p-6">
+            <div class="w-full overflow-x-hidden bg-white border rounded-lg mt-1">
+                <table mat-table class="w-full" [dataSource]="dataSource">
+                    <ng-container matColumnDef="invoiceNo">
+                        <th mat-header-cell *matHeaderCellDef>Invoice No</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.invoiceNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="invoiceDate">
+                        <th mat-header-cell *matHeaderCellDef>Invoice Date</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.invoiceDate | date: 'dd/MM/yyyy' }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="companyName">
+                        <th mat-header-cell *matHeaderCellDef>Company Name</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element?.companyName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="modelNo">
+                        <th mat-header-cell *matHeaderCellDef>Model No</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element?.modelNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="invoiceTotal">
+                        <th mat-header-cell *matHeaderCellDef>Invoice Total</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element?.invoiceTotal | number: '2.2'}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="shopInfo">
+                        <th mat-header-cell *matHeaderCellDef>Issued Shop</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element?.shopInfo?.name }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="createdBy">
+                        <th mat-header-cell *matHeaderCellDef>Created By</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element?.createdBy?.name }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="updatedBy">
+                        <th mat-header-cell *matHeaderCellDef>Updated By</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element?.updatedBy?.name }}
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="text-center p-3" [attr.colspan]="displayedColumns.length">
+                            No data found
+                        </td>
+                    </tr>
+                    <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+                        (click)="goTo(_userService.hasAccess(accessControls.INVOICE_READ_DETAILS)  ? '/invoice/view/'+element.id : null)">
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

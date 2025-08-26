@@ -1,0 +1,82 @@
+<div class="w-full p-8">
+	<div class="md:flex justify-between w-full items-center mb-8">
+		<h2 class="text-primary text-xl font-extrabold md:m-0">Shops List</h2>
+
+		<div>
+			<button mat-raised-button color="primary" (click)="goTo('/shop/form')" 
+			*ngIf="_userService.hasAccess(accessControls.SHOP_CREATE)" class="rounded">
+				<mat-icon class="mr-1">add</mat-icon>
+				Create Shop
+			</button>
+		</div>
+	</div>
+	<form action="" [formGroup]="searchForm">
+		<div class="grid md:grid-cols-4 grid-cols-1 gap-4 my-2">
+			<mat-form-field class="w-full fuse-mat-dense">
+				<input matInput placeholder="Search" formControlName="searchString">
+			</mat-form-field>
+
+			<mat-form-field class="w-full fuse-mat-dense">
+				<mat-select matInput placeholder="Status" formControlName="status"
+					(selectionChange)="getShopList()">
+					<mat-option>All</mat-option>
+					<mat-option [value]="'Active'">Active</mat-option>
+					<mat-option [value]="'Inactive'">Inactive</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+	</form>
+
+	<div class="w-full overflow-x-auto bg-white border rounded-lg">
+		<table mat-table class="w-full" [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort>
+
+			<ng-container matColumnDef="name">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+				<td mat-cell *matCellDef="let element">
+					{{ element?.name ?? '' }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="invoiceType">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice Type</th>
+				<td mat-cell *matCellDef="let element">
+					{{ element?.invoiceType ?? '' }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="invoicePrefix">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice Prefix</th>
+				<td mat-cell *matCellDef="let element">
+					{{ element?.invoicePrefix ?? '' }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="active">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+				<td mat-cell *matCellDef="let element">
+					{{ element.active ? 'Active' : 'Inactive' }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="action">
+				<th mat-header-cell *matHeaderCellDef>Action</th>
+				<td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+					<button mat-icon-button *ngIf="_userService.hasAccess(accessControls.SHOP_UPDATE)" 
+						(click)="goTo('/shop/form/'+element.id)">
+						<mat-icon>edit</mat-icon>
+					</button>
+				</td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr class="mat-row" *matNoDataRow>
+				<td class="text-center p-3" [attr.colspan]="displayedColumns.length">
+					No data found
+				</td>
+			</tr>
+			<tr mat-row *matRowDef="let element; columns: displayedColumns;"
+				(click)="goTo(_userService.hasAccess(accessControls.SHOP_READ_DETAILS)  ? '/shop/view/'+element.id : null)">
+			</tr>
+		</table>
+	</div>
+</div>

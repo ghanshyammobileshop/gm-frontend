@@ -1,0 +1,9 @@
+td {
+    border: 1px solid rgba(var(--fuse-border-rgb), var(--tw-border-opacity));
+    padding: 5px 10px;
+}
+
+.details-container {
+    overflow: auto;
+    max-height: calc(45vh - 60px);
+}

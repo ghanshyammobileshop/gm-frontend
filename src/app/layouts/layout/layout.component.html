@@ -1,0 +1,31 @@
+<mat-sidenav-container class="h-full dark:bg-gray-900">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" [opened]="screenWidth > 640" class="bg-white dark:bg-accent shadow">
+       <app-sidebar (click)="screenWidth < 640 ? snav.toggle() : null"></app-sidebar>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+
+        <mat-toolbar
+            class="bg-white relative flex flex-0 items-center justify-between shadow w-full h-16 px-4 md:px-6 z-10 dark:bg-accent dark:text-white dark:border-b bg-white print:hidden">
+            <button mat-icon-button (click)="snav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+
+            <!-- <div class="flex">
+                <button mat-icon-button matTooltip="Change Theme" (click)="darkMode.set(!darkMode())">
+                    <mat-icon *ngIf="!darkMode()">dark_mode</mat-icon>
+                    <mat-icon *ngIf="darkMode()">light_mode</mat-icon>
+                </button>
+
+                <button mat-icon-button matTooltip="Toggle Fullscreen" (click)="toggleFullScreen()" class="ml-1">
+                    <mat-icon>zoom_out_map</mat-icon> 
+                </button>
+
+                <app-notification class="ml-1"></app-notification>
+            </div> -->
+        </mat-toolbar>
+
+        <router-outlet *ngIf="true"></router-outlet>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,85 @@
+<!-- Logo -->
+<div class="m-2">
+    <div class="py-8">
+        <img src="assets/images/logo/logo.png" class="dark:brightness-0 dark:invert w-36 mx-auto">
+    </div>
+
+    <mat-nav-list class="px-2 sidebar">
+        <a mat-list-item routerLink="/dashboard" [routerLinkActive]="['active']"
+            *ngIf="_userService.hasAccess(accessControls.DASHBOARD_VIEW)">
+            <img src="../../../../assets/icons/dashboard.svg" alt="" class="mr-3">
+            Dashboard
+        </a>
+
+        <a mat-list-item routerLink="/customer" [routerLinkActive]="['active']"
+            *ngIf="_userService.hasAccess(accessControls.CUSTOMER_READ_LIST)">
+            <img src="../../../../assets/icons/customer.svg" alt="" class="mr-3">
+            Customer
+        </a>
+
+        <a mat-list-item routerLink="/invoice" [routerLinkActive]="['active']"
+            *ngIf="_userService.hasAccess(accessControls.INVOICE_READ_LIST)">
+            <img src="../../../../assets/icons/invoice.svg" alt="" class="mr-3">
+            Invoice
+        </a>
+
+        <a mat-list-item routerLink="/admin-user" [routerLinkActive]="['active']"
+            *ngIf="_userService.hasAccess(accessControls.USER_READ_LIST)">
+            <img src="../../../../assets/icons/admin-user.svg" alt="" class="mr-3">
+            App User
+        </a>
+
+        <a mat-list-item routerLink="/shop" [routerLinkActive]="['active']"
+            *ngIf="_userService.hasAccess(accessControls.SHOP_READ_LIST)">
+            <img src="../../../../assets/icons/store.svg" alt="" class="mr-3">
+            Shops
+        </a>
+
+        <a mat-list-item routerLink="/log-report" [routerLinkActive]="['active']"
+            *ngIf="_userService.hasAccess(accessControls.LOG_READ_ALL)">
+            <img src="../../../../assets/icons/log-report.svg" alt="" class="mr-3">
+            Log Report
+        </a>
+    </mat-nav-list>
+
+    <div class="flex flex-row items-center w-full pt-3 pl-3 border-t">
+        <div class="relative w-20 rounded-full bg-secondary mr-3">
+            <span class="w-full h-full rounded-full img-text text-black"><b>{{avatarInitials}}</b></span>
+            <!-- <img class="w-full h-full rounded-full" src="./../../../../assets/images/avatar.png" alt="User avatar"> -->
+        </div>
+        <div class="flex flex-col items-center w-full">
+            <p class="w-full whitespace-nowrap text-ellipsis overflow-hidden leading-normal font-medium text-sm mb-0">
+                {{user?.name ?? ''}}
+            </p>
+            <p class="w-36 mt-0.5 whitespace-nowrap text-ellipsis overflow-hidden text-xs leading-normal font-medium
+                text-secondary m-0">
+                {{user?.email}}
+            </p>
+        </div>
+        <mat-icon class="text-[20px] cursor-pointer" [matMenuTriggerFor]="userActions">chevron_right</mat-icon>
+    </div>
+</div>
+<mat-menu [xPosition]="'after'" #userActions="matMenu">
+    <button mat-menu-item class="hover:bg-transparent">
+        <span class="flex flex-col leading-none">
+            <p class="text-xs m-0">Signed in as</p>
+            <h4 class="text-sm text-primary font-medium m-0 mt-1">{{user?.name ?? ''}} <span
+                    class="text-xs text-default">{{user?.role ? '('+user?.role+')' : ''}}</span></h4>
+            <span class="mt-1 text-sm text-secondary font-normal">{{user?.email}}</span>
+        </span>
+    </button>
+    <!-- <mat-divider class="my-2"></mat-divider>
+    <button mat-menu-item>
+        <mat-icon>account_circle</mat-icon>
+        <span>Profile</span>
+    </button>
+    <button mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+    </button> -->
+    <mat-divider class="my-2"></mat-divider>
+    <button mat-menu-item (click)="signOut()">
+        <mat-icon>logout</mat-icon>
+        <span>Log out</span>
+    </button>
+</mat-menu>

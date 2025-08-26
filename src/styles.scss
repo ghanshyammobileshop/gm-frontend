@@ -1,0 +1,205 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import './tailwind.scss';
+
+html,
+body {
+    height: 100%;
+}
+
+a {
+    text-decoration: underline;
+}
+
+body {
+    margin: 0;
+    font-size: 14px;
+    font-feature-settings: 'salt';
+}
+
+html {
+    --mat-expansion-header-expanded-state-height: 48px;
+    --mat-sidenav-content-background-color: #F5F6F9;
+    --mat-divider-color: #D9D9D9;
+    --mdc-checkbox-state-layer-size: 30px;
+}
+
+*:not(.mat-icon) {
+    font-family: "Inter", sans-serif !important;
+}
+
+.mat-drawer.mat-drawer-side {
+    width: 265px;
+    border-radius: 0;
+}
+
+::placeholder,
+.mat-mdc-select-placeholder {
+    color: #BABABA !important;
+    font-family: "Inter", sans-serif !important;
+    font-weight: 300;
+}
+
+.mdc-snackbar {
+    border-radius: 4px;
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+    background-color: inherit !important;
+}
+
+.green-snackbar {
+    background: rgb(34 197 94) !important;
+}
+
+.red-snackbar {
+    background: #E01919 !important;
+}
+
+.sidebar {
+    height: calc(100vh - 235px);
+    overflow-y: auto;
+
+    img {
+        width: 22px;
+    }
+
+    .mdc-list-item__primary-text {
+        color: #4A576D;
+        letter-spacing: normal
+    }
+
+    a.mat-mdc-list-item.active {
+        opacity: 1;
+        background-color: #2B63E1;
+
+        .mdc-list-item__primary-text {
+            color: #ffffff;
+        }
+
+        img {
+            filter: brightness(0) invert(1);
+        }
+    }
+}
+
+// switch css
+.mdc-switch__handle-track {
+    transform: translate(60%, 0%);
+    border-radius: 50%;
+}
+
+.mdc-switch__track {
+    background-color: #ffffff;
+    border-radius: 15px !important;
+    height: 28px !important;
+
+    &::before {
+        border: 0 !important;
+    }
+}
+
+.mat-mdc-slide-toggle .mdc-switch {
+    width: var(--mdc-switch-track-width, 46px) !important;
+}
+
+.mdc-switch__handle {
+    left: 3px !important;
+    width: var(--mdc-switch-handle-width, 18px) !important;
+    height: var(--mdc-switch-handle-height, 18px) !important;
+}
+
+.mdc-switch__icons svg,
+.mdc-switch__ripple,
+.mat-mdc-radio-button.mat-mdc-radio-checked .mdc-radio__background::before,
+.mdc-checkbox__ripple {
+    display: none !important;
+}
+
+.mdc-switch__handle::after {
+    background: #ffffff !important;
+}
+
+.mat-mdc-slide-toggle .mdc-switch:enabled .mdc-switch__track::after {
+    background: #0052CF !important;
+}
+
+.pop-head {
+    background: #2B63E1;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: calc(100% + 48px);
+    position: relative;
+    left: -24px;
+    top: -24px;
+    padding: 10px 24px;
+
+    .mat-icon {
+        font-size: 16px;
+        color: #ffffff;
+    }
+}
+
+p {
+    letter-spacing: normal;
+}
+
+// ---- start: loader style ----
+.overlay-backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.overlay-panel {
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    color: transparent;
+    padding: 20px;
+}
+
+// ---- end: loader style ----
+
+.ng-select .ng-has-value .ng-placeholder, .ng-select.ng-select-opened .ng-placeholder,
+.ng-select .ng-select-container:after {
+    transform: none !important;
+    display: none !important;
+    
+  }
+  ng-select {
+    margin-top: 5px;
+    background-color: #FFFFFF;
+    border: 1px solid #2B63E1;
+    padding-bottom: 0 !important;
+    border-radius: 6px;
+    padding: 0 16px;
+    font-size: 14px;
+    .ng-arrow-wrapper {
+      bottom: 16px !important;
+    }
+    .ng-placeholder {
+    color: #BABABA !important;
+    font-family: "Inter", sans-serif !important;
+    font-weight: 300;
+    }
+    .ng-select-container {
+        color: #1a1b1f !important;
+        align-items: center !important;
+        min-height: 48px !important;
+        .ng-value-container{
+            padding: 0 !important;
+            border-top: 0 !important;
+            align-items: center !important;
+          }
+    }
+    .ng-input>input{
+        height: 35px;
+    }
+  }
+  .ng-option{
+    font-family: "Inter", sans-serif !important;
+    font-size: 14px;
+  }

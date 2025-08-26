@@ -1,0 +1,49 @@
+<div class="w-full p-8">
+	<form action="" [formGroup]="searchForm">
+		<div class="grid md:grid-cols-4 grid-cols-1 gap-4 my-2">
+			<mat-form-field class="w-full fuse-mat-dense">
+				<mat-label>Current Shop</mat-label>
+				<mat-select placeholder="Shop" formControlName="shopId" (selectionChange)="changeShop($event)">
+					@for (shop of shopDropdown; track shop) {
+					<mat-option [value]="shop.id">{{shop.name}}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+		</div>
+	</form>
+
+	<div class="w-full bg-[white] rounded box-shadow mb-5 p-6 pt-5">
+		<h2 class="text-primary text-xl font-bold mb-5">Statistics</h2>
+
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+			<button
+				class="p-4 bg-[#DDE8FF] shadow rounded active:bg-primary-100 focus:bg-primary-100 hover:bg-primary-100">
+				<p class="text-center font-medium mt-2">Total Customer</p>
+				<div>
+					<p class="text-5xl font-bold leading-none text-[#729AF2]">
+						{{ statistics?.totalCustomer ?? 0 }}
+					</p>
+				</div>
+			</button>
+
+			<button class="p-4 bg-[#FFF6E8] shadow rounded active:bg-amber-100 focus:bg-amber-100 hover:bg-amber-100">
+				<p class="text-center font-medium mt-2">Total Invoice</p>
+				<div>
+					<p class="text-5xl font-bold leading-none text-[#EFB766]">
+						{{ statistics?.totalInvoice ?? 0 }}
+					</p>
+				</div>
+			</button>
+
+			<button
+				class="p-4 bg-[#FFEDEF] shadow rounded active:bg-red-100 focus:bg-red-100 hover:bg-red-100">
+				<p class="text-center font-medium mt-2">Total Selling</p>
+				<div>
+					<p class="text-5xl font-bold leading-none text-[#E57975]">
+						{{ statistics?.totalSellingAmount  | number : ".2-2" }}
+					</p>
+				</div>
+			</button>
+		</div>
+	</div>
+</div>

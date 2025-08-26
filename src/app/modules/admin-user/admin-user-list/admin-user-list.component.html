@@ -1,0 +1,103 @@
+<div class="w-full p-8">
+	<div class="md:flex justify-between w-full items-center mb-8">
+		<h2 class="text-primary text-xl font-extrabold md:m-0">App Users List</h2>
+
+		<div>
+			<button mat-raised-button color="primary" (click)="goTo('/admin-user/form')" class="rounded">
+				<mat-icon class="mr-1">add</mat-icon>
+				Add User
+			</button>
+		</div>
+	</div>
+	<form action="" [formGroup]="searchForm">
+		<div class="grid md:grid-cols-4 grid-cols-1 gap-4 my-2">
+			<mat-form-field class="w-full fuse-mat-dense">
+				<input matInput placeholder="Search" formControlName="searchString">
+			</mat-form-field>
+
+			<mat-form-field class="w-full fuse-mat-dense">
+				<mat-select matInput placeholder="User Role" formControlName="role"
+					(selectionChange)="resetPagination();getAdminUserList()">
+					<mat-option>All</mat-option>
+					<mat-option [value]="'SuperAdmin'">Super Admin</mat-option>
+					<mat-option [value]="'Admin'">Admin</mat-option>
+					<mat-option [value]="'Operator'">Operator</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field class="w-full fuse-mat-dense">
+				<mat-select matInput placeholder="Status" formControlName="status"
+					(selectionChange)="resetPagination();getAdminUserList()">
+					<mat-option>All</mat-option>
+					<mat-option [value]="'Active'">Active</mat-option>
+					<mat-option [value]="'Inactive'">Inactive</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+	</form>
+
+	<div class="w-full overflow-x-auto bg-white border rounded-lg">
+		<table mat-table class="w-full" [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort>
+			<ng-container matColumnDef="no">
+				<th mat-header-cell *matHeaderCellDef width="80">No.</th>
+				<td mat-cell *matCellDef="let element; let i = index" width="80">
+					{{(this.pagination.pageIndex*this.pagination.pageSize) +(i+1)}}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="name">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+				<td mat-cell *matCellDef="let element">
+					{{ element.name }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="email">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+				<td mat-cell *matCellDef="let element">
+					{{ element.email }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="role">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
+				<td mat-cell *matCellDef="let element">
+					{{ element.role }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="active">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+				<td mat-cell *matCellDef="let element">
+					{{ element.active ? 'Active' : 'Inactive' }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="action">
+				<th mat-header-cell *matHeaderCellDef>Action</th>
+				<td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+					<button mat-icon-button (click)="goTo('/admin-user/form/'+element.id)">
+						<mat-icon>edit</mat-icon>
+					</button>
+				</td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr class="mat-row" *matNoDataRow>
+				<td class="text-center p-3" [attr.colspan]="displayedColumns.length">
+					No data found
+				</td>
+			</tr>
+			<tr mat-row *matRowDef="let element; columns: displayedColumns;"
+				(click)="goTo(_userService.hasAccess(accessControls.USER_READ_DETAILS)  ? '/admin-user/view/'+element.id : null)">
+			</tr>
+		</table>
+	</div>
+
+	<div class="flex justify-end mt-2">
+		<mat-paginator #paginator class="bg-transparent" [pageSize]="this.pagination.pageSize"
+			[pageIndex]="this.pagination.pageIndex" [pageSizeOptions]="this.pagination.pageSizeOptions"
+			(page)="pageChanged($event)">
+		</mat-paginator>
+	</div>
+</div>
