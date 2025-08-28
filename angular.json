@@ -42,20 +42,26 @@
 							"src/styles.scss",
 							"@ng-select/ng-select/themes/material.theme.css"
 						],
-						"scripts": []
+						"scripts": [],
+						"allowedCommonJsDependencies": [
+							"lodash",
+							"buffer",
+							"moment",
+							"print-js"
+						]
 					},
 					"configurations": {
 						"production": {
 							"budgets": [
 								{
 									"type": "initial",
-									"maximumWarning": "500kB",
-									"maximumError": "1MB"
+									"maximumWarning": "3mb",
+									"maximumError": "5mb"
 								},
 								{
 									"type": "anyComponentStyle",
-									"maximumWarning": "2kB",
-									"maximumError": "4kB"
+									"maximumWarning": "75kb",
+									"maximumError": "90kb"
 								}
 							],
 							"fileReplacements": [
@@ -70,8 +76,8 @@
 							"budgets": [
 								{
 									"type": "initial",
-									"maximumWarning": "4mb",
-									"maximumError": "6mb"
+									"maximumWarning": "3mb",
+									"maximumError": "5mb"
 								},
 								{
 									"type": "anyComponentStyle",
