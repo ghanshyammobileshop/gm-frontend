@@ -231,7 +231,11 @@ export class CreateInvoiceComponent implements OnInit, OnDestroy {
 
   async onPrint() {
     if (this.invoiceId) {
-      await this._invoiceService.printInvoice(this.invoiceId);
+      try {
+        await this._invoiceService.printInvoice(this.invoiceId);
+      } catch (error) {
+        this._utilService.showErrorSnack(error);
+      }
     }
   }
 }

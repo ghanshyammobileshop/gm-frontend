@@ -80,7 +80,11 @@ export class ViewInvoiceDetailsComponent implements OnInit {
 
 	async onPrint() {
 		if (this.invoiceId) {
-			await this._invoiceService.printInvoice(this.invoiceId);
+			try {
+				await this._invoiceService.printInvoice(this.invoiceId);
+			} catch (error) {
+				this._utilService.showErrorSnack(error);
+			}
 		}
 	}
 }
