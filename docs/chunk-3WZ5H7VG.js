@@ -1,1 +1,0 @@
-import{a as o}from"./chunk-2JKRYZF2.js";import{l as t}from"./chunk-TN7LRJOG.js";import{na as r,t as e}from"./chunk-L2AW7WK7.js";var U=s=>(n,u)=>{let a=r(t);return r(o).hasAccess(s)?e(!0):e(a.parseUrl("forbidden"))};export{U as a};
