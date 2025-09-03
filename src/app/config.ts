@@ -33,7 +33,7 @@ export const ApiUrls = Object.freeze({
     LOG: `${GlobalVariable.BASE_URL}log`,
     LOG_CONSTANT: `${GlobalVariable.BASE_URL}log/constantsValues`,
 
-    STATISTICS: `${GlobalVariable.BASE_URL}report/statistics`,
+    STATISTICS: `${GlobalVariable.BASE_URL}report/statistics/`,
 });
 
 export const StorageConst = Object.freeze({

@@ -85,7 +85,7 @@ export class UserService {
         return lastValueFrom(this.http.get<any>(ApiUrls.ACCESS_CONTROLS_ROLE_WISE));
     }
 
-    getStatistics(): Promise<StatisticsModel> {
-        return lastValueFrom(this.http.get<StatisticsModel>(ApiUrls.STATISTICS));
+    getStatistics(shopId: string): Promise<StatisticsModel> {
+        return lastValueFrom(this.http.get<StatisticsModel>(ApiUrls.STATISTICS + shopId));
     }
 }

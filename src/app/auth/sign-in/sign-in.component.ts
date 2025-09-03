@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup,
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'app/services/auth.service';
 import { UtilService } from 'app/services/util.service';
+import { environment } from 'environments/environment';
 import { MaterialModule } from '../../material/material.module';
 
 @Component({
@@ -15,6 +16,7 @@ import { MaterialModule } from '../../material/material.module';
 })
 export class AuthSignInComponent implements OnInit {
     signInForm!: UntypedFormGroup;
+    feVersion: string = '';
 
     constructor(
         private _activatedRoute: ActivatedRoute,
@@ -25,6 +27,7 @@ export class AuthSignInComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        this.feVersion = environment.appVersion;
         this.signInForm = this._formBuilder.group({
             email: [null, [Validators.required, Validators.email]],
             password: [null, Validators.required],

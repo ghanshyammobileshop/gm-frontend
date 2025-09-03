@@ -36,10 +36,18 @@ export class DashboardComponent implements OnInit {
     this.getShopList();
   }
 
-  changeShop(event: MatSelectChange) {
-    if (event.value) {
-      this.shopId = event.value;
-      this._storageService.setCurrentShopAccess(event.value);
+  async changeShop(event: MatSelectChange) {
+    try {
+      if (event.value) {
+        this.shopId = event.value;
+        this._storageService.setCurrentShopAccess(event.value);
+      }
+      this._utilService.showLoader();
+      this.statistics = await this._userService.getStatistics(this.shopId!);
+    } catch (error: any) {
+      this._utilService.showErrorSnack(error);
+    } finally {
+      this._utilService.hideLoader();
     }
   }
 
@@ -60,7 +68,7 @@ export class DashboardComponent implements OnInit {
         shopId: this.shopId,
       });
 
-      this.statistics = await this._userService.getStatistics();
+      this.statistics = await this._userService.getStatistics(this.shopId!);
     } catch (error: any) {
       this._utilService.showErrorSnack(error);
     } finally {
