@@ -19,8 +19,11 @@ export class InvoiceService {
         return lastValueFrom(this.http.get<PaginationResponse<Invoice>>(ApiUrls.INVOICE_LIST, { params }));
     }
 
-    getInvoiceListCustomerById(id: string): Promise<PaginationResponse<Invoice>> {
-        return lastValueFrom(this.http.get<PaginationResponse<Invoice>>(`${ApiUrls.INVOICE_BY_CUSTOMER_ID}/${id}`));
+    getInvoiceListByCustomerAndShop(option: { customerId: string, shopId: string }): Promise<PaginationResponse<Invoice>> {
+        let params = new HttpParams();
+        params = params.append('customerId', option.customerId);
+        params = params.append('shopId', option.shopId);
+        return lastValueFrom(this.http.get<PaginationResponse<Invoice>>(`${ApiUrls.INVOICE_BY_CUSTOMER_AND_SHOP}`, { params }));
     }
 
     getInvoiceById(invoiceId: string): Promise<Invoice> {

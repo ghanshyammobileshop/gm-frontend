@@ -9,9 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AccessControls } from 'app/const';
 import { PaginationModel } from 'app/models/common';
 import { Invoice } from 'app/models/invoice';
-import { ShopDropdownList } from 'app/models/shop.model';
 import { InvoiceService } from 'app/services/invoice.service';
-import { ShopService } from 'app/services/shop.service';
 import { StorageService } from 'app/services/storage.service';
 import { UserService } from 'app/services/user.service';
 import { UtilService } from 'app/services/util.service';
@@ -31,7 +29,6 @@ export class InvoiceListComponent implements OnInit {
 
 	displayedColumns: string[] = ['invoiceNo', 'createdAt', 'customerName', 'companyName', 'modelNo', 'invoiceTotal'];
 	dataSource = new MatTableDataSource<Invoice>();
-	shopDropdown: ShopDropdownList[] | null = null;
 
 	pagination: PaginationModel = {
 		pageSizeOptions: [10, 25, 50, 100],
@@ -49,11 +46,10 @@ export class InvoiceListComponent implements OnInit {
 		private _invoiceService: InvoiceService,
 		private _activatedRoute: ActivatedRoute,
 		private _router: Router,
-		private _shopService: ShopService,
 		private _utilService: UtilService,
 		private _dialog: MatDialog,
-		public _userService: UserService,
 		private _storageService: StorageService,
+		public _userService: UserService,
 	) { }
 
 	ngOnInit(): void {
@@ -104,15 +100,6 @@ export class InvoiceListComponent implements OnInit {
 				this.getInvoiceList()
 			});
 		this.getInvoiceList();
-		this.getShopList();
-	}
-
-	async getShopList() {
-		try {
-			this.shopDropdown = await this._shopService.getShopListByAccess();
-		} catch (error: any) {
-			this._utilService.showErrorSnack(error);
-		}
 	}
 
 	resetPagination() {

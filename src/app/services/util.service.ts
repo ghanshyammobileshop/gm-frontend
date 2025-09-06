@@ -20,21 +20,21 @@ export class UtilService {
     private progressRef: OverlayRef | undefined;
 
     constructor(
-        private storageService: StorageService,
         private overlay: Overlay,
+        private _storageService: StorageService,
         private _matSnackbar: MatSnackBar,
     ) {
-        this.loginChangeObx = new BehaviorSubject<User | null>(this.storageService.getCurrentUser());
+        this.loginChangeObx = new BehaviorSubject<User | null>(this._storageService.getCurrentUser());
     }
 
     updateUserProfile(user: User) {
-        this.storageService.setCurrentUser(user);
+        this._storageService.setCurrentUser(user);
         this.loginChangeObx.next(user);
     }
 
     loginUser(rUser: LoginUser) {
-        this.storageService.setSessionToken(rUser.token);
-        this.storageService.setCurrentUser(rUser.user);
+        this._storageService.setSessionToken(rUser.token);
+        this._storageService.setCurrentUser(rUser.user);
         this.loginChangeObx.next(rUser.user);
     }
 

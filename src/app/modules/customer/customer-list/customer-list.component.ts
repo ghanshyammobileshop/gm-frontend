@@ -9,6 +9,7 @@ import { AccessControls } from 'app/const';
 import { PaginationModel } from 'app/models/common';
 import { Customer } from 'app/models/customer';
 import { CustomerService } from 'app/services/customer.service';
+import { StorageService } from 'app/services/storage.service';
 import { UserService } from 'app/services/user.service';
 import { UtilService } from 'app/services/util.service';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
@@ -44,6 +45,7 @@ export class CustomerListComponent implements OnInit {
 		private _activatedRoute: ActivatedRoute,
 		private _router: Router,
 		private _utilService: UtilService,
+		private _storageService: StorageService,
 		public _userService: UserService,
 	) { }
 
@@ -53,6 +55,7 @@ export class CustomerListComponent implements OnInit {
 			status: new FormControl(null),
 			sortBy: new FormControl(''),
 			sortOrder: new FormControl(''),
+			shopId: new FormControl(this._storageService.getCurrentShopAccess()),
 		});
 
 		this._activatedRoute.queryParams
@@ -79,6 +82,9 @@ export class CustomerListComponent implements OnInit {
 					}
 					if (params?.sortOrder && !this.searchForm.value.sortOrder) {
 						options['sortOrder'] = params?.sortOrder;
+					}
+					if (params?.shopId && !this.searchForm.value.shopId) {
+						options['shopId'] = params?.shopId;
 					}
 
 					this.searchForm.patchValue(options);
@@ -164,6 +170,9 @@ export class CustomerListComponent implements OnInit {
 		}
 		if (this.searchForm.value.sortOrder) {
 			params = params.append('sortOrder', this.searchForm.value.sortOrder);
+		}
+		if (this.searchForm.value.shopId) {
+			params = params.append('shopId', this.searchForm.value.shopId);
 		}
 		this.updateRoute();
 		return params;

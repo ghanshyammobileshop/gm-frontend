@@ -12,6 +12,7 @@ export enum AccessControls {
     USER_UPDATE = 'USER_UPDATE',
     USER_DELETE = 'USER_DELETE',
     USER_READ_DETAILS = 'USER_READ_DETAILS',
+    USER_PASSWORD_RESET = 'USER_PASSWORD_RESET',
 
     //Customer
     CUSTOMER_READ_LIST = 'CUSTOMER_READ_LIST',
@@ -34,6 +35,9 @@ export enum AccessControls {
     SHOP_UPDATE = 'SHOP_UPDATE',
     SHOP_DELETE = 'SHOP_DELETE',
     SHOP_READ_DETAILS = 'SHOP_READ_DETAILS',
+
+    // Settings
+    APP_SETTINGS = 'APP_SETTINGS',
 
     // Log Report
     LOG_READ_ALL = 'LOG_READ_ALL',

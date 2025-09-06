@@ -23,7 +23,7 @@ export const ApiUrls = Object.freeze({
 
     INVOICE: `${GlobalVariable.BASE_URL}invoice`,
     INVOICE_LIST: `${GlobalVariable.BASE_URL}invoice/findAll`,
-    INVOICE_BY_CUSTOMER_ID: `${GlobalVariable.BASE_URL}invoice/customer`,
+    INVOICE_BY_CUSTOMER_AND_SHOP: `${GlobalVariable.BASE_URL}invoice/findbyCustomerAndShop`,
     INVOICE_LATEST_NO_BY_SHOP_ID: `${GlobalVariable.BASE_URL}invoice/latestInvoiceNo`,
     INVOICE_PRINT: `${GlobalVariable.BASE_URL}invoice/print`,
 
@@ -34,6 +34,7 @@ export const ApiUrls = Object.freeze({
     LOG_CONSTANT: `${GlobalVariable.BASE_URL}log/constantsValues`,
 
     STATISTICS: `${GlobalVariable.BASE_URL}report/statistics/`,
+    DB_STATS: `${GlobalVariable.BASE_URL}report/db-stats`,
 });
 
 export const StorageConst = Object.freeze({

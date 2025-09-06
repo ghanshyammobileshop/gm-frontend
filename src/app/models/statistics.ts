@@ -3,3 +3,9 @@ export interface StatisticsModel {
     totalInvoice: number;
     totalSellingAmount: number;
 }
+
+export interface DbStats {
+    totalSize: number;
+    formattedTotalSize: string;
+    ok: number;
+}

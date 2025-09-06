@@ -52,7 +52,10 @@ export class ViewCustomerComponent {
 		try {
 			if (this.customerId) {
 				this.customer = await this._customerService.getCustomerById(this.customerId);
-				let invoices = await this._invoiceService.getInvoiceListCustomerById(this.customerId);
+				let invoices = await this._invoiceService.getInvoiceListByCustomerAndShop({
+					customerId: this.customer.id,
+					shopId: this.customer.shopId,
+				});
 				this.dataSource.data = invoices.items;
 			}
 		} catch (error: any) {

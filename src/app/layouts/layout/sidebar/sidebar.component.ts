@@ -6,6 +6,7 @@ import { AccessControls } from 'app/const';
 import { User } from 'app/models/user';
 import { AuthService } from 'app/services/auth.service';
 import { UserService } from 'app/services/user.service';
+import { environment } from 'environments/environment';
 import { MaterialModule } from '../../../material/material.module';
 
 @Component({
@@ -19,12 +20,14 @@ export class SidebarComponent {
 	accessControls = AccessControls;
 	user?: User;
 	avatarInitials: string = '';
+	feVersion: string = '';
 
 	constructor(
 		private _router: Router,
 		public _userService: UserService,
 		private _authService: AuthService,
 	) {
+		this.feVersion = environment.appVersion;
 		this._userService.user$.subscribe(user => {
 			this.user = user;
 			const nameParts = this.user.name.trim().split(' ');

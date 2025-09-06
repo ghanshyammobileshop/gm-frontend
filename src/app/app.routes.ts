@@ -81,6 +81,13 @@ export const routes: Routes = [
         loadChildren: () => import('./modules/log-report/log-report.module').then(m => m.LogReportModule)
     },
     {
+        path: 'settings',
+        canActivate: [AuthGuard, AccessGuard(AccessControls.APP_SETTINGS)],
+        canActivateChild: [AuthGuard, AccessGuard(AccessControls.APP_SETTINGS)],
+        component: LayoutComponent,
+        loadChildren: () => import('./modules/settings/settings.module').then(m => m.SettingsModule)
+    },
+    {
         path: '**',
         component: EmptyLayoutComponent,
         data: {

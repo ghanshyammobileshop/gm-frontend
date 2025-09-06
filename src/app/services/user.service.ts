@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiUrls } from 'app/config';
-import { StatisticsModel } from 'app/models/statistics';
+import { DbStats, StatisticsModel } from 'app/models/statistics';
 import { AccessControlList, User } from 'app/models/user';
 import { Observable, ReplaySubject, lastValueFrom } from 'rxjs';
 import { StorageService } from './storage.service';
@@ -87,5 +87,9 @@ export class UserService {
 
     getStatistics(shopId: string): Promise<StatisticsModel> {
         return lastValueFrom(this.http.get<StatisticsModel>(ApiUrls.STATISTICS + shopId));
+    }
+
+    getDbStats(): Promise<DbStats> {
+        return lastValueFrom(this.http.get<DbStats>(ApiUrls.DB_STATS));
     }
 }

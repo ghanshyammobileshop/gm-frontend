@@ -15,14 +15,6 @@
 			<mat-form-field class="w-full fuse-mat-dense">
 				<input matInput placeholder="Search" formControlName="searchString">
 			</mat-form-field>
-
-			<mat-form-field class="w-full fuse-mat-dense">
-				<mat-select placeholder="Shop" formControlName="shopId" (selectionChange)="resetPagination();getInvoiceList()">
-					@for (shop of shopDropdown; track shop) {
-					<mat-option [value]="shop.id">{{shop.name}}</mat-option>
-					}
-				</mat-select>
-			</mat-form-field>
 		</div>
 	</form>
 

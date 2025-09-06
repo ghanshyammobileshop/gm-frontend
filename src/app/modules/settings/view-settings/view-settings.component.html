@@ -1,0 +1,19 @@
+<div class="w-full p-8">
+    <div class="md:flex justify-between w-full items-center mb-8">
+        <h2 class="text-primary text-xl font-bold md:m-0">View Settings</h2>
+    </div>
+
+    <div class="bg-white border rounded-md">
+        <div class="md:flex justify-between w-full items-center border-b">
+            <h6 class="text-base font-semibold py-3 px-6 m-0">Database Details</h6>
+        </div>
+        <div class="grid md:grid-cols-4 grid-cols-1 gap-5 p-6 text-sm font-light">
+            <div>
+                <mat-label class="text-secondary">Database Total Size</mat-label>
+                <p class="mt-2 mb-0 font-medium">
+                    {{dbStats?.formattedTotalSize ?? ''}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

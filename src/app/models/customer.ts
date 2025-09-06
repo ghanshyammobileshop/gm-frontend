@@ -5,5 +5,6 @@ export interface Customer {
     mobileNo1: string;
     mobileNo2: string;
     gstNo: string;
+    shopId: string;
     active: boolean;
 }

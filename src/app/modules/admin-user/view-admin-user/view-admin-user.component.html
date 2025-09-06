@@ -1,6 +1,6 @@
 <div class="w-full p-8">
     <div class="md:flex justify-between w-full items-center mb-8">
-        <h2 class="text-primary text-xl font-bold md:m-0">View Admin User</h2>
+        <h2 class="text-primary text-xl font-bold md:m-0">View App User</h2>
 
         <button mat-button (click)="goTo('/admin-user')" class="rounded">
             <mat-icon class="mr-1">arrow_back</mat-icon>
@@ -16,7 +16,7 @@
                     Edit <mat-icon class="mr-1">edit</mat-icon>
                 </button>
                 <button mat-stroked-button color="primary"
-                    *ngIf="_userService.hasAccess(accessControlsList.USER_UPDATE)" (click)="resetPassword()"
+                    *ngIf="_userService.hasAccess(accessControlsList.USER_PASSWORD_RESET)" (click)="resetPassword()"
                     class="rounded mr-5 m-2">Reset
                     Password
                 </button>

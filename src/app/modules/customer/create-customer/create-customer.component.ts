@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AccessControls } from 'app/const';
 import { Customer } from 'app/models/customer';
 import { CustomerService } from 'app/services/customer.service';
+import { StorageService } from 'app/services/storage.service';
 import { UserService } from 'app/services/user.service';
 import { UtilService } from 'app/services/util.service';
 import { cloneDeep } from 'lodash';
@@ -28,6 +29,7 @@ export class CreateCustomerComponent implements OnInit {
 		private _router: Router,
 		private _utilService: UtilService,
 		private _customerService: CustomerService,
+		private _storageService: StorageService,
 		public _userService: UserService,
 	) { }
 
@@ -91,7 +93,13 @@ export class CreateCustomerComponent implements OnInit {
 				payload.id = this.currentUserId;
 				resp = await this._customerService.updateCustomer(payload);
 			} else {
-				resp = await this._customerService.createCustomer(payload);
+				const shopId = this._storageService.getCurrentShopAccess();
+				if (shopId) {
+					payload.shopId = shopId;
+					resp = await this._customerService.createCustomer(payload);
+				} else {
+					this._utilService.showErrorSnack('Please select shop from the dashboard');
+				}
 			}
 			this._utilService.showSuccessSnack(resp.message);
 			this.backToList();

@@ -13,7 +13,6 @@ import { Shop } from 'app/models/shop.model';
 import { CustomerService } from 'app/services/customer.service';
 import { InvoiceService } from 'app/services/invoice.service';
 import { ShopService } from 'app/services/shop.service';
-import { StorageService } from 'app/services/storage.service';
 import { UtilService } from 'app/services/util.service';
 import { cloneDeep } from 'lodash';
 import moment from 'moment';
@@ -60,7 +59,6 @@ export class CreateInvoiceComponent implements OnInit, OnDestroy {
     private _utilService: UtilService,
     private _invoiceService: InvoiceService,
     private _shopService: ShopService,
-    private _storageService: StorageService,
     public _location: Location,
     private _customerService: CustomerService,
   ) {
@@ -179,12 +177,13 @@ export class CreateInvoiceComponent implements OnInit, OnDestroy {
         this.customer = await this._customerService.getCustomerById(this.invoice.customerId);
         this.invoiceForm.patchValue(this.invoice);
       } else {
+        let shopId: string | null = null;
 
         if (this.customerId) {
           this.customer = await this._customerService.getCustomerById(this.customerId);
+          shopId = this.customer.shopId;
         }
 
-        const shopId = this._storageService.getCurrentShopAccess();
         if (shopId) {
           this.shop = await this._shopService.getShopById(shopId);
           const newInvoiceNo = await this._invoiceService.getLatestInvoiceNo(shopId);
